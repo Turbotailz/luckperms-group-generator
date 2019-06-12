@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LuckPerms Group Generator</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<header><h1>LuckPerms Group Generator</h1></header>
+
+<main id="app">
+    <input type="text" v-model="newGroup" placeholder="Add a group">
+    <button @click="addGroup(newGroup)">Add group</button>
+    <ul>
+        <li v-for="group in groups">{{ group }}</li>
+    </ul>
+</main>
+
+<footer>&copy; 2019 <a href="https://github.com/turbotailz">Turbotailz</a></footer>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            groups: [],
+            newGroup: '',
+        },
+        methods: {
+            addGroup(group) {
+                this.groups.push(group);
+                this.newGroup = '';
+            }
+        }
+    })
+</script>
+</body>
+</html>

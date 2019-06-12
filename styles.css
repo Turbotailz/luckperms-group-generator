@@ -41,3 +41,38 @@ footer {
 a {
     color: #0F0;
 }
+
+.groups {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.input {
+    display: flex;
+}
+
+input {
+    font: inherit;
+    padding: .5em 1em;
+    border: 0;
+
+}
+
+button {
+    background: #CCC;
+    border: 0;
+    font: inherit;
+    padding: .5em 1em;
+    font-weight: bold;
+}
+
+.group-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-list > div {
+    padding: .5em 1em;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}

@@ -9,16 +9,24 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
 </head>
 <body>
 <header><h1>LuckPerms Group Generator</h1></header>
 
 <main id="app">
-    <input type="text" v-model="newGroup" placeholder="Add a group">
-    <button @click="addGroup(newGroup)">Add group</button>
-    <ul>
-        <li v-for="group in groups">{{ group }}</li>
-    </ul>
+    <div class="groups">
+        <div class="input">
+            <input type="text" v-model="newGroup" placeholder="Add a group" @keydown.enter="addGroup(newGroup)">
+            <button type="submit" @click="addGroup(newGroup)">&plus;</button>
+        </div>
+        <draggable class="group-list" v-model="groups">
+            <div v-for="group in groups">
+                {{ group }}
+            </div>
+        </draggable>
+    </div>
 </main>
 
 <footer>&copy; 2019 <a href="https://github.com/turbotailz">Turbotailz</a></footer>

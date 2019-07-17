@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.14/lodash.min.js"></script>
 </head>
 <body>
 <header><h1>LuckPerms Group Generator</h1></header>
@@ -29,10 +30,10 @@
                 <input type="checkbox" v-model="makeTrack">
                 <span>Make track?</span>
             </label>
-            <input v-if="makeTrack" type="text" v-model="trackName" placeholder="Track name">
+            <input v-if="makeTrack" type="text" @input="debounceTrackInput" placeholder="Track name">
         </div>
         <div class="input group">
-            <input type="text" v-model="newGroup" placeholder="Add a group" @keydown.enter="addGroup(newGroup)">
+            <input type="text" v-model.trim="newGroup" placeholder="Add a group" @keydown.enter="addGroup(newGroup)">
             <button type="submit" @click="addGroup(newGroup)">&plus;</button>
         </div>
         <draggable class="group-list" v-model="groups">
@@ -45,7 +46,9 @@
     <div class="commands">
         <h2 v-if="commands.length">Commands</h2>
         <transition-group tag="ul" name="slide">
-            <li v-for="(command, index) in commands" :key="command">{{ command }}</li>
+            <li v-for="(command, index) in commands" :key="command">
+                <code>{{ command }}</code>
+            </li>
         </transition-group>
         <template v-if="commands.length">
             <button @click="download">
@@ -55,7 +58,7 @@
             <ol>
                 <li>Download the import file</li>
                 <li>Add the file to your LuckPerms plugin folder (where your config is)</li>
-                <li>Run the command <code>/lp import luckperms-import.txt</code></li>
+                <li>Run the command: <br> <code>/lp import luckperms-import.txt</code></li>
                 <li>Your groups should now be imported and configured on your server</li>
             </ol>
         </template>
@@ -77,13 +80,16 @@
         methods: {
             addGroup(group) {
                 if (group !== '') {
-                    this.groups.push(group);
+                    this.groups.push(group.toLowerCase());
                     this.newGroup = '';
                 }
             },
             download() {
                 download(this.commands.join('\r\n'), 'luckperms-import.txt', 'text/plain');
-            }
+            },
+            debounceTrackInput: _.debounce(function(e) {
+                this.trackName = e.target.value;
+            }, 500),
         },
         computed: {
             commands() {
@@ -94,7 +100,7 @@
                 this.groups.forEach((group, index) => {
                     commands.push('/lp creategroup ' + group);
 
-                    if (this.inherit && index !== 0) commands.push('/lp group ' + group + ' parent add ' + this.groups[index--]);
+                    if (this.inherit && index !== 0) commands.push('/lp group ' + group + ' parent add ' + this.groups[(index - 1)]);
 
                     if (this.makeTrack && this.trackName !== '') commands.push('/lp track ' + this.trackName + ' append ' + group);
                 });

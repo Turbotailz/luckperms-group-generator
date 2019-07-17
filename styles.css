@@ -30,6 +30,7 @@ main {
     flex: 1 0 auto;
     margin: 0 auto;
     max-width: 800px;
+    display: flex;
 }
 
 footer {
@@ -46,16 +47,35 @@ a {
     display: flex;
     flex-direction: column;
     margin-top: 2em;
+    width: 20vw;
 }
 
 .input {
     display: flex;
 }
 
-input {
+.input.track {
+    flex-direction: column;
+    margin-bottom: .5em;
+}
+
+.input label {
+    padding: .5em 0;
+    cursor: pointer;
+    opacity: .8;
+}
+
+.input label:hover {
+    opacity: 1
+}
+
+input[type=text] {
     font: inherit;
     padding: .5em 1em;
     border: 0;
+}
+
+input[type=checkbox] {
 
 }
 
@@ -65,6 +85,12 @@ button {
     font: inherit;
     padding: .5em 1em;
     font-weight: bold;
+    cursor: pointer;
+    opacity: .8;
+}
+
+button:hover {
+    opacity: 1;
 }
 
 .group-list {
@@ -75,4 +101,47 @@ button {
 .group-list > div {
     padding: .5em 1em;
     border-bottom: 1px solid rgba(255,255,255,.1);
+    cursor: grab;
+}
+
+.group-list > div:hover {
+    background: rgba(255,255,255,.1);
+}
+
+.group-list > div:active {
+    cursor: grabbing;
+    background: rgba(255,255,255,.2);
+}
+
+.commands {
+    width: 40vw;
+    padding: 2em;
+}
+
+h2 {
+    margin: 0 0 1em;
+}
+
+.commands ul {
+    font-family: monospace;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.commands li {
+    padding: 0 0 .25em;
+}
+
+.commands button {
+    margin-top: 2em;
+}
+
+.slide-enter-active, .slide-leave-active, .slide-move {
+    transition: all .2s;
+}
+
+.slide-enter, .slide-leave-to {
+    opacity: 0;
+    transform: translateX(100%);
 }

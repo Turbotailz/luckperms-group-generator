@@ -39,8 +39,16 @@ footer {
     padding: 1em;
 }
 
+footer span {
+    margin: 0 .5em;
+}
+
 a {
     color: #0F0;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .groups {

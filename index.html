@@ -21,14 +21,20 @@
     <div class="groups">
         <div class="input inherit">
             <label>
-                <input type="checkbox" v-model="inherit">
-                <span>Define inheritance?</span>
+                <span>
+                    <input type="checkbox" v-model="inherit">
+                    <span>Inherit groups</span>
+                </span>
+                <span>Adds the previous group as a parent</span>
             </label>
         </div>
         <div class="input track">
             <label>
-                <input type="checkbox" v-model="makeTrack">
-                <span>Make track?</span>
+                <span>
+                    <input type="checkbox" v-model="makeTrack">
+                    <span>Create track</span>
+                </span>
+                <span>Adds the groups to a track which you can promote across</span>
             </label>
             <input v-if="makeTrack" type="text" @input="debounceTrackInput" placeholder="Track name">
         </div>
@@ -41,6 +47,7 @@
                 {{ group }}
             </div>
         </draggable>
+        <span v-if="groups.length">Tip: re-order groups by dragging them!</span>
     </div>
 
     <div class="commands">
@@ -57,7 +64,7 @@
             <p>To import your groups:</p>
             <ol>
                 <li>Download the import file</li>
-                <li>Add the file to your LuckPerms plugin folder (where your config is)</li>
+                <li>Add the file to the root your LuckPerms plugin folder (where your config is)</li>
                 <li>Run the command: <br> <code>/lp import luckperms-import.txt</code></li>
                 <li>Your groups should now be imported and configured on your server</li>
             </ol>
@@ -86,7 +93,11 @@
         methods: {
             addGroup(group) {
                 if (group !== '') {
-                    this.groups.push(group.toLowerCase());
+                    let groupName = group.toLowerCase();
+
+                    groupName = groupName.replace(' ', '-');
+
+                    this.groups.push(groupName);
                     this.newGroup = '';
                 }
             },
